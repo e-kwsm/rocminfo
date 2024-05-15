@@ -15,12 +15,12 @@ TAG_PREFIX=$1
 reg_ex="${TAG_PREFIX}*"
 
 commits_since_last_tag() {
-  TAG_ARR=(`git tag --sort=committerdate -l ${reg_ex} | tail -2`)
+  TAG_ARR=($(git tag --sort=committerdate -l "${reg_ex}" | tail -2))
   PREVIOUS_TAG=${TAG_ARR[0]}
   CURRENT_TAG=${TAG_ARR[1]}
 
-  PREV_CMT_NUM=`git rev-list --count $PREVIOUS_TAG`
-  CURR_CMT_NUM=`git rev-list --count $CURRENT_TAG`
+  PREV_CMT_NUM=$(git rev-list --count "$PREVIOUS_TAG")
+  CURR_CMT_NUM=$(git rev-list --count "$CURRENT_TAG")
 
   # Commits since prevous tag:
   if [[ -z $PREV_CMT_NUM || -z $CURR_CMT_NUM ]]; then
@@ -33,7 +33,7 @@ commits_since_last_tag() {
 
 case $TARGET in
     count) commits_since_last_tag ;;
-    *) die "Invalid target $target" ;;
+    *) die "Invalid target $TARGET" ;;
 esac
 
 exit 0
